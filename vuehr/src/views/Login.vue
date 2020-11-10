@@ -34,7 +34,16 @@ export default {
         login(){
             this.$refs.loginForm.validate((valid) => {
                 if (valid) {
-                    alert('submit!');
+                    this.postKeyValueRequest('/doLogin',this.loginForm).then(response => {
+                        if(response){
+                            window.sessionStorage.setItem('user',JSON.stringify(response.object));
+                            this.$message({
+                                message:response.msg,
+                                type:'success'
+                            });
+                            this.$router.replace({path:"/home"});
+                        }
+                    });
                 } else {
                     this.$message({
                         message: '请输入所有字段',
@@ -65,7 +74,7 @@ export default {
     color: #505458;
 }
 .loginRemember{
-    text-align: left;
+    text-align: center;
     margin: 0px 0px 15px 0px;
 }
 </style>

@@ -128,4 +128,20 @@ public class Hr implements UserDetails {
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
+
+    @Override
+    public String toString() {
+        return "Hr{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", address='" + address + '\'' +
+                ", enabled=" + enabled +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", userface='" + userface + '\'' +
+                ", remark='" + remark + '\'' +
+                '}';
+    }
 }
