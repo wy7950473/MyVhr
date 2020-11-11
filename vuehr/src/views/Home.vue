@@ -17,10 +17,10 @@
             <el-container>
                 <el-aside class="menuHandler" width="201px" style="solid 1px #e6e6e6">
                     <el-menu router>
-                        <template v-for="(item,index) in this.$router.options.routes">
-                            <el-submenu index="1" :key="index" v-if="!item.hidden">
+                        <template v-for="(item,index) in routes">
+                            <el-submenu :index="index+''" :key="index" v-if="!item.hidden">
                                 <template slot="title">
-                                    <i class="el-icon-location"></i>
+                                    <i :class="item.iconCls" style="color:#409eff;margin-right:5px"></i>
                                     <span>{{item.name}}</span>
                                 </template>
                                 <el-menu-item v-for="(itemChildren,index) in item.children" 
@@ -45,6 +45,11 @@ export default {
             user:JSON.parse(window.sessionStorage.getItem('user'))
         }
     },
+    computed:{
+        routes(){
+            return this.$store.state.menu.routes;
+        }
+    },
     methods:{
         commandHandler(cmd){
             if (cmd == 'logout') {
@@ -55,6 +60,7 @@ export default {
                 }).then(() => {
                     this.getRequest('/logout');
                     window.sessionStorage.removeItem('user');
+                    this.$store.commit('menu/initRoutes',[]);
                     this.$router.push({path:"/"});
                 }).catch(() => {
                     this.$message({
@@ -96,9 +102,5 @@ export default {
     height: 48px;
     border-radius: 24px;
     margin-left: 8px;
-}
-.menuHandler{
-    background-color: bisque;
-    height: 500px;
 }
 </style>

@@ -2,6 +2,8 @@ package com.example.hr.dao;
 
 import com.example.hr.model.Menu;
 
+import java.util.List;
+
 public interface MenuMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface MenuMapper {
     int updateByPrimaryKeySelective(Menu record);
 
     int updateByPrimaryKey(Menu record);
+
+    List<Menu> selectMenuByHrId(Integer hrId);
 }

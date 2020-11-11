@@ -7,15 +7,85 @@
     <result column="path" property="path" jdbcType="VARCHAR" />
     <result column="component" property="component" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="iconCls" property="iconcls" jdbcType="VARCHAR" />
-    <result column="keepAlive" property="keepalive" jdbcType="BIT" />
-    <result column="requireAuth" property="requireauth" jdbcType="BIT" />
-    <result column="parentId" property="parentid" jdbcType="INTEGER" />
+    <result column="iconCls" property="iconCls" jdbcType="VARCHAR" />
+    <result column="parentId" property="parentId" jdbcType="INTEGER" />
     <result column="enabled" property="enabled" jdbcType="BIT" />
+    <association property="meta" javaType="com.example.hr.model.Meta">
+      <result column="keepAlive" property="keepAlive" jdbcType="BIT" />
+      <result column="requireAuth" property="requireAuth" jdbcType="BIT" />
+    </association>
+  </resultMap>
+
+  <resultMap id="menuBaseMap" type="com.example.hr.model.Menu">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="path" property="path" jdbcType="VARCHAR" />
+    <result column="component" property="component" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="iconCls" property="iconCls" jdbcType="VARCHAR" />
+    <result column="parentId" property="parentId" jdbcType="INTEGER" />
+    <result column="enabled" property="enabled" jdbcType="BIT" />
+    <association property="meta" javaType="com.example.hr.model.Meta">
+      <result column="keepAlive" property="keepAlive" jdbcType="BIT" />
+      <result column="requireAuth" property="requireAuth" jdbcType="BIT" />
+    </association>
+    <collection property="children" ofType="com.example.hr.model.Menu">
+      <id column="chilId" property="id" jdbcType="INTEGER" />
+      <result column="chilUrl" property="url" jdbcType="VARCHAR" />
+      <result column="chilPath" property="path" jdbcType="VARCHAR" />
+      <result column="chilComponent" property="component" jdbcType="VARCHAR" />
+      <result column="chilName" property="name" jdbcType="VARCHAR" />
+      <result column="childIconCls" property="iconCls" jdbcType="VARCHAR" />
+      <result column="chilParentId" property="parentId" jdbcType="INTEGER" />
+      <result column="chilEnabled" property="enabled" jdbcType="BIT" />
+      <association property="meta" javaType="com.example.hr.model.Meta">
+        <result column="chilKeepAlive" property="keepAlive" jdbcType="BIT" />
+        <result column="chilRequireAuth" property="requireAuth" jdbcType="BIT" />
+      </association>
+    </collection>
   </resultMap>
   <sql id="Base_Column_List" >
     id, url, path, component, name, iconCls, keepAlive, requireAuth, parentId, enabled
   </sql>
+
+  <select id="selectMenuByHrId" resultMap="menuBaseMap">
+    select distinct
+        pm.id,
+        pm.url,
+        pm.path,
+        pm.component,
+        pm.`name`,
+        pm.iconCls,
+        pm.keepAlive,
+        pm.requireAuth,
+        pm.parentId,
+        pm.enabled,
+        cm.id as chilId,
+        cm.component as chilComponent,
+        cm.enabled as chilEnabled,
+        cm.iconCls as childIconCls,
+        cm.keepAlive as chilKeepAlive,
+        cm.requireAuth as chilRequireAuth,
+        cm.`name` as chilName,
+        cm.parentId as chilParentId,
+        cm.path as chilPath,
+        cm.url as chilUrl
+    from menu as pm
+    inner join (
+        select m.* from menu as m
+        inner join menu_role as mr
+        on m.id = mr.mid
+        inner join role as r
+        on mr.rid = r.id
+        inner join hr_role as h_r
+        on r.id = h_r.rid
+        inner join hr
+        on hr.id = h_r.hrid
+        where hr.id = #{hrId} and m.enabled = 1 ) as cm
+    on cm.parentId = pm .id
+    where pm.enabled = 1;
+  </select>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

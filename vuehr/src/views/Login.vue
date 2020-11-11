@@ -6,7 +6,8 @@
                 <el-input type="text" v-model="loginForm.username" auto-complete="off" placholder="请输入用户名"></el-input>
             </el-form-item>
             <el-form-item prop="password">
-                <el-input type="password" v-model="loginForm.password" auto-complete="off" placholder="请输入密码"></el-input>
+                <el-input type="password" v-model="loginForm.password" auto-complete="off"
+                     placholder="请输入密码" @keydown.enter.native="login"></el-input>
             </el-form-item>
             <el-checkbox v-model="checked" class="loginRemember">记住密码</el-checkbox>
             <el-button  type="primary" style="width:100%" @click="login">登录</el-button>
@@ -37,10 +38,6 @@ export default {
                     this.postKeyValueRequest('/doLogin',this.loginForm).then(response => {
                         if(response){
                             window.sessionStorage.setItem('user',JSON.stringify(response.object));
-                            this.$message({
-                                message:response.msg,
-                                type:'success'
-                            });
                             this.$router.replace({path:"/home"});
                         }
                     });

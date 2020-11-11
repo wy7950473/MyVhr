@@ -1,6 +1,6 @@
 <template>
     <div>
-        Test2
+        人事记录统计
     </div>
 </template>
 
@@ -11,5 +11,5 @@ export default {
 </script>
 
 <style lang="css" scoped>
-
+    
 </style>

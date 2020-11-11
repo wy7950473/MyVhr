@@ -1,6 +1,6 @@
 <template>
     <div>
-        Test1
+        员工调薪
     </div>
 </template>
 
@@ -11,5 +11,5 @@ export default {
 </script>
 
 <style lang="css" scoped>
-
+    
 </style>
