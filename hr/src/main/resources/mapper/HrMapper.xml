@@ -153,4 +153,18 @@
   <select id="loadUserByUsername" resultMap="BaseResultMap">
     select * from hr where hr.username = #{username}
   </select>
+
+  <select id="selectRoleById" resultType="com.example.hr.model.Role">
+    select
+        r.id,
+        r.name,
+        r.nameZh
+    from role as r
+        inner join hr_role as hrr
+        on hrr.rid = r.id
+        inner join hr
+        on hr.id = hrr.hrid
+    where
+        hr.id = #{id}
+  </select>
 </mapper>

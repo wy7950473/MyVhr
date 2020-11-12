@@ -21,4 +21,9 @@ public class MenuServiceImpl implements MenuService {
     public List<Menu> getMenuByHrId() {
         return this.menuMapper.selectMenuByHrId(((Hr)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
     }
+
+    @Override
+    public List<Menu> getAllMenusWithRole() {
+        return this.menuMapper.selectAllMenusWithRole();
+    }
 }

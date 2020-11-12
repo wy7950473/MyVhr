@@ -23,6 +23,7 @@ public class UserService implements UserDetailsService {
         if (ObjectUtils.isEmpty(hr)){
             throw new UsernameNotFoundException("用户名不存在");
         }
+        hr.setRoles(this.hrMapper.selectRoleById(hr.getId()));
 
         return hr;
     }

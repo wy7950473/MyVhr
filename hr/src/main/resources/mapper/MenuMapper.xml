@@ -48,6 +48,14 @@
     id, url, path, component, name, iconCls, keepAlive, requireAuth, parentId, enabled
   </sql>
 
+  <resultMap id="MenuWithRole" type="com.example.hr.model.Menu" extends="BaseResultMap">
+    <collection property="roles" ofType="com.example.hr.model.Role">
+      <id column="roleId" property="id" jdbcType="INTEGER"/>
+      <result column="roleName" property="name" jdbcType="VARCHAR"/>
+      <result column="roleNameZh" property="nameZh" jdbcType="VARCHAR"/>
+    </collection>
+  </resultMap>
+
   <select id="selectMenuByHrId" resultMap="menuBaseMap">
     select distinct
         pm.id,
@@ -84,6 +92,20 @@
         where hr.id = #{hrId} and m.enabled = 1 ) as cm
     on cm.parentId = pm .id
     where pm.enabled = 1;
+  </select>
+
+  <select id="selectAllMenusWithRole" resultMap="MenuWithRole">
+    select
+        m.*,
+        r.id as roleId,
+        r.`name` as roleName,
+        r.nameZh as roleNameZh
+    from menu as m
+        inner join menu_role as mr
+        on mr.mid = m.id
+        inner join role as r
+        on mr.rid = r.id
+    order by m.id;
   </select>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >

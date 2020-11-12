@@ -5,7 +5,6 @@ export const initMenu = (router,store) => {
         return false;
     }
     getRequest("/system/config/menu").then(response => {
-        console.log(response);
         if(response){
             let fmtRoutes = formatRoutes(response);
             router.addRoutes(fmtRoutes);
