@@ -1,4 +1,4 @@
-package com.example.hr.controller;
+package com.example.hr.controller.config;
 
 import com.example.hr.model.Menu;
 import com.example.hr.service.MenuService;

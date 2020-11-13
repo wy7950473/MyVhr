@@ -13,9 +13,9 @@ export const initMenu = (router,store) => {
     });
 }
 
-export const formatRoutes = (routers) => {
+export const formatRoutes = (data) => {
     let fmtRoutes = [];
-    routers.forEach(router => {
+    data.forEach(router => {
         let {
             path,
             component,
