@@ -22,8 +22,8 @@
 
   <delete id="deleteByIds" parameterType="integer">
     delete from position where id in
-    <foreach collection="list" item="ids" open="(" separator="," close=")">
-      #{ids}
+    <foreach collection="list" item="id" open="(" separator="," close=")">
+      #{id}
     </foreach>
   </delete>
 

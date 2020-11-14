@@ -2,6 +2,8 @@ package com.example.hr.dao;
 
 import com.example.hr.model.JobLevel;
 
+import java.util.List;
+
 public interface JobLevelMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,8 @@ public interface JobLevelMapper {
     int updateByPrimaryKeySelective(JobLevel record);
 
     int updateByPrimaryKey(JobLevel record);
+
+    List<JobLevel> selectAllJobLevels();
+
+    Integer deleteJobLevels(List<Integer> ids);
 }
